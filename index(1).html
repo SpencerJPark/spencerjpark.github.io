@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spencer Park — Solutions Engineer</title>
+<meta name="description" content="Spencer Park: solutions engineer and technical consultant. Engineer, operator, and buyer — case studies in eCommerce operations, data systems, and B2B SaaS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F4EF;
+    --ink:#131A20;
+    --steel:#5B6670;
+    --line:#D8D6CE;
+    --freight:#E8531C;
+    --card:#FDFCF9;
+    --todo:#FFE977;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important;animation:none !important} }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--freight);color:#fff}
+  a{color:inherit}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--freight);outline-offset:3px}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  /* ---- TODO placeholders: loud on purpose ---- */
+  mark.todo{
+    background:var(--todo);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.85em;
+    padding:2px 6px;
+    border:1px dashed var(--ink);
+    white-space:nowrap;
+  }
+
+  /* ---- Header ---- */
+  header{
+    border-bottom:1px solid var(--ink);
+    position:sticky;top:0;background:var(--paper);z-index:10;
+  }
+  .hd{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 24px;max-width:1040px;margin:0 auto;gap:12px;flex-wrap:wrap;
+  }
+  .hd .name{font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.01em;font-size:18px}
+  nav{display:flex;gap:22px;font-family:'IBM Plex Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  nav a{text-decoration:none;border-bottom:2px solid transparent;padding-bottom:2px}
+  nav a:hover{border-color:var(--freight)}
+
+  /* ---- Hero ---- */
+  .hero{padding:88px 0 64px;border-bottom:1px solid var(--line)}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--steel);margin-bottom:20px;
+  }
+  .eyebrow b{color:var(--freight);font-weight:500}
+  h1{
+    font-family:'Archivo',sans-serif;
+    font-variation-settings:'wdth' 78;
+    font-weight:850;
+    font-size:clamp(40px,7vw,76px);
+    line-height:1.02;
+    letter-spacing:-.015em;
+    text-transform:uppercase;
+    max-width:18ch;
+  }
+  h1 .hl{color:var(--freight)}
+  .hero p.lede{max-width:56ch;margin-top:28px;font-size:19px;color:#2A343C}
+
+  /* ---- Three seats strip ---- */
+  .seats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink);margin-top:48px;background:var(--card)}
+  .seat{padding:22px 22px 26px;border-right:1px solid var(--ink)}
+  .seat:last-child{border-right:none}
+  .seat .tag{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:.12em;padding:3px 8px;border:1px solid var(--ink);
+    text-transform:uppercase;margin-bottom:12px;background:var(--paper);
+  }
+  .seat h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;margin-bottom:6px}
+  .seat p{font-size:15px;color:var(--steel)}
+
+  /* ---- Sections ---- */
+  section{padding:72px 0}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:40px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+  .sec-head h2{
+    font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 80;
+    font-weight:800;font-size:clamp(24px,3.4vw,34px);text-transform:uppercase;letter-spacing:-.01em;
+  }
+  .sec-head .count{font-family:'IBM Plex Mono',monospace;color:var(--steel);font-size:13px}
+
+  /* ---- Case study manifest cards ---- */
+  .case{background:var(--card);border:1px solid var(--ink);margin-bottom:44px}
+  .manifest{
+    display:flex;flex-wrap:wrap;border-bottom:1px solid var(--ink);
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;
+  }
+  .manifest div{padding:10px 16px;border-right:1px solid var(--line)}
+  .manifest div:last-child{border-right:none}
+  .manifest .k{color:var(--steel);text-transform:uppercase;margin-right:8px}
+  .manifest .seat-chip{
+    display:inline-block;padding:1px 7px;border:1px solid var(--ink);margin-right:5px;
+    background:var(--paper);text-transform:uppercase;
+  }
+  .manifest .seat-chip.on{background:var(--freight);color:#fff;border-color:var(--freight)}
+  .case-body{padding:32px 32px 36px}
+  .case-body h3{
+    font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);
+    line-height:1.15;letter-spacing:-.01em;margin-bottom:6px;
+  }
+  .case-body .sub{color:var(--steel);font-size:15px;margin-bottom:26px}
+  .paq{display:grid;grid-template-columns:110px 1fr;gap:10px 26px;margin-bottom:14px}
+  .paq dt{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;
+    letter-spacing:.1em;color:var(--freight);padding-top:4px;
+  }
+  .paq dd{max-width:66ch}
+  .outcomes{
+    margin-top:26px;border-top:1px dashed var(--line);padding-top:20px;
+    display:flex;flex-wrap:wrap;gap:14px 36px;
+  }
+  .outcome .num{font-family:'Archivo',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.01em}
+  .outcome .lbl{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);text-transform:uppercase;letter-spacing:.06em}
+  .figure{
+    margin:26px 0 4px;border:1px dashed var(--steel);padding:34px 20px;text-align:center;
+    color:var(--steel);font-family:'IBM Plex Mono',monospace;font-size:13px;background:var(--paper);
+  }
+
+  /* ---- Side project ---- */
+  .stitch{background:var(--ink);color:var(--paper)}
+  .stitch .sec-head{border-color:var(--paper)}
+  .stitch .sec-head .count{color:#9AA5AD}
+  .stitch-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:start}
+  .stitch h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(24px,3vw,32px);margin-bottom:14px}
+  .stitch p{color:#C7CDD2;max-width:58ch;margin-bottom:14px}
+  .stitch .figure{border-color:#5B6670;color:#9AA5AD;background:#1B242C}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #4A555E;padding:3px 10px;color:#C7CDD2}
+
+  /* ---- Skills ---- */
+  .skills dl{display:grid;grid-template-columns:190px 1fr;gap:14px 28px}
+  .skills dt{font-family:'IBM Plex Mono',monospace;font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--freight);padding-top:3px}
+  .skills dd{border-bottom:1px solid var(--line);padding-bottom:14px}
+
+  /* ---- Contact ---- */
+  .contact{border-top:2px solid var(--ink);text-align:left}
+  .contact h2{
+    font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 78;font-weight:850;
+    font-size:clamp(32px,5.4vw,56px);text-transform:uppercase;line-height:1.05;max-width:20ch;
+  }
+  .contact .links{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;font-size:14px;text-transform:uppercase;letter-spacing:.06em;
+    text-decoration:none;border:1px solid var(--ink);padding:12px 20px;background:var(--card);
+    transition:background .15s,color .15s;
+  }
+  .btn:hover{background:var(--freight);border-color:var(--freight);color:#fff}
+  .btn.primary{background:var(--ink);color:var(--paper)}
+  .btn.primary:hover{background:var(--freight)}
+  footer{padding:26px 0 40px;color:var(--steel);font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+
+  @media (max-width:760px){
+    .seats{grid-template-columns:1fr}
+    .seat{border-right:none;border-bottom:1px solid var(--ink)}
+    .seat:last-child{border-bottom:none}
+    .paq{grid-template-columns:1fr;gap:2px 0}
+    .paq dd{margin-bottom:12px}
+    .stitch-grid{grid-template-columns:1fr}
+    .case-body{padding:24px 20px 28px}
+    .skills dl{grid-template-columns:1fr}
+    .skills dt{padding-top:8px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="name">SPENCER PARK</div>
+    <nav aria-label="Site">
+      <a href="#work">Case&nbsp;Studies</a>
+      <a href="#stitchpunk">Side&nbsp;Project</a>
+      <a href="#skills">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Solutions Engineer · Technical Consultant &nbsp;—&nbsp; <b>Seattle, WA · Remote-ready</b></p>
+      <h1>Engineer. Operator. Buyer.<br><span class="hl">I translate between all three.</span></h1>
+      <p class="lede">
+        I've built the systems, run the operations, and sat on the buying side of the table.
+        That means I can walk into technical discovery and genuinely speak every language in the room —
+        merchants trust me because I've had their job; engineers trust me because I can read their code.
+      </p>
+
+      <div class="seats" role="list">
+        <div class="seat" role="listitem">
+          <span class="tag">E — Engineer</span>
+          <h3>I build it</h3>
+          <p>Founded and solo-built a B2B marketplace SaaS. React, Node, PostgreSQL, Stripe, REST &amp; webhooks.</p>
+        </div>
+        <div class="seat" role="listitem">
+          <span class="tag">O — Operator</span>
+          <h3>I run it</h3>
+          <p>Owned post-purchase eCommerce operations end-to-end: fulfillment design, order processing, carrier workflows.</p>
+        </div>
+        <div class="seat" role="listitem">
+          <span class="tag">B — Buyer</span>
+          <h3>I've bought it</h3>
+          <p>Advised C-suite stakeholders on SaaS adoption — technical fit, integration risk, implementation readiness.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="sec-head">
+        <h2>Case Studies</h2>
+        <span class="count mono">03 RECORDS</span>
+      </div>
+
+      <!-- ============ CASE 01 ============ -->
+      <article class="case">
+        <div class="manifest">
+          <div><span class="k">Case</span>01</div>
+          <div><span class="k">Org</span>EatDirt — DTC eCommerce</div>
+          <div><span class="k">Seats</span>
+            <span class="seat-chip on">E</span><span class="seat-chip on">O</span><span class="seat-chip">B</span>
+          </div>
+          <div><span class="k">Stack</span>Python · SQL · BigQuery · Spark · Airflow · GTM</div>
+        </div>
+        <div class="case-body">
+          <h3>Post-purchase operations &amp; the data architecture underneath</h3>
+          <p class="sub">Operations Manager · May 2023 – Oct 2024</p>
+          <dl class="paq">
+            <dt>Problem</dt>
+            <dd>A growing DTC food brand had no fulfillment infrastructure and no way to see its own numbers — orders, costs, and carrier performance lived in disconnected tools, and the true cost of goods drifted invisibly over time.</dd>
+            <dt>Approach</dt>
+            <dd>Designed the fulfillment facility layout and order-processing workflows, then built the data layer to match: an ETL pipeline (Python, SQL, BigQuery, Spark, Airflow) integrating storefront, order, and fulfillment data — including slowly changing dimensions so historical COGS could be analyzed honestly. Instrumented the digital product with Google Tag Manager and built self-serve KPI reporting for leadership.</dd>
+            <dt>Outcome</dt>
+            <dd>Leadership went from guessing to reading dashboards. Documented everything in video and writing, with a roadmap of operational changes triggered automatically as scale KPIs were hit — so the playbook outlived my tenure.</dd>
+          </dl>
+          <div class="outcomes">
+            <div class="outcome"><div class="num">End-to-end</div><div class="lbl">Fulfillment + data owned solo</div></div>
+            <div class="outcome"><div class="num">SCD</div><div class="lbl">Historical COGS tracking</div></div>
+            <div class="outcome"><div class="num">Self-serve</div><div class="lbl">KPI dashboards for leadership</div></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ============ CASE 02 ============ -->
+      <article class="case">
+        <div class="manifest">
+          <div><span class="k">Case</span>02</div>
+          <div><span class="k">Org</span>Direct Crops — B2B Marketplace SaaS</div>
+          <div><span class="k">Seats</span>
+            <span class="seat-chip on">E</span><span class="seat-chip on">O</span><span class="seat-chip">B</span>
+          </div>
+          <div><span class="k">Stack</span>React · Next.js · Node · PostgreSQL · Stripe · GCP</div>
+        </div>
+        <div class="case-body">
+          <h3>Founding, building, and selling a marketplace — alone</h3>
+          <p class="sub">Founder &amp; Full-Stack Engineer · Jul 2022 – Dec 2023</p>
+          <dl class="paq">
+            <dt>Problem</dt>
+            <dd>Small and mid-size agriculture producers had no direct channel to B2B buyers — sales ran on phone calls and spreadsheets, and inventory was invisible to the people trying to purchase it.</dd>
+            <dt>Approach</dt>
+            <dd>Built the entire product solo: a marketplace connecting producers with wholesale buyers plus a SaaS inventory management system. Designed the REST APIs and webhook-driven workflows for payments, inventory sync, and order management. Then ran the full customer motion myself — discovery calls, live demos, onboarding, and feature prioritization straight from customer conversations.</dd>
+            <dt>Outcome</dt>
+            <dd>Shipped a working two-sided platform as a team of one, and learned the technical sales motion from the inside: every demo I give now is informed by having watched real customers get stuck.</dd>
+          </dl>
+          <div class="outcomes">
+            <div class="outcome"><div class="num">1 → prod</div><div class="lbl">Solo build to launch</div></div>
+            <div class="outcome"><div class="num">2-sided</div><div class="lbl">Marketplace + inventory SaaS</div></div>
+            <div class="outcome"><div class="num">Founder-led</div><div class="lbl">Discovery, demos, onboarding</div></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ============ CASE 03 ============ -->
+      <article class="case">
+        <div class="manifest">
+          <div><span class="k">Case</span>03</div>
+          <div><span class="k">Org</span>Conscious Hospitality Group — Multi-brand restaurants</div>
+          <div><span class="k">Seats</span>
+            <span class="seat-chip">E</span><span class="seat-chip on">O</span><span class="seat-chip on">B</span>
+          </div>
+          <div><span class="k">Stack</span>POS · CRM · Inventory · Fulfillment · SaaS evaluation</div>
+        </div>
+        <div class="case-body">
+          <h3>Consultative discovery for a C-suite that couldn't see its data</h3>
+          <p class="sub">Technical Business Consultant (Contract) · Jun 2024 – Oct 2024</p>
+          <dl class="paq">
+            <dt>Problem</dt>
+            <dd>A restaurant group running multiple brands (Just Poke, Matcha Magic) had data scattered across POS, CRM, inventory, and fulfillment systems. Leadership couldn't analyze pricing, costs, or loss — and needed to adopt new SaaS tooling for compliance without knowing what would actually integrate.</dd>
+            <dt>Approach</dt>
+            <dd>Led discovery with C-suite and operational stakeholders to map business goals, technical architecture, and constraints across brands. Translated those requirements into a scalable data design, unified the system data flows into a governed reporting layer, and evaluated SaaS vendors on technical fit, integration risk, and implementation readiness — before money was spent.</dd>
+            <dt>Outcome</dt>
+            <dd>Leadership analyzed pricing, cost, and loss across brands for the first time, with a phased implementation roadmap and a clean handoff to internal owners at contract end.</dd>
+          </dl>
+          <div class="outcomes">
+            <div class="outcome"><div class="num">C-suite</div><div class="lbl">Primary stakeholders</div></div>
+            <div class="outcome"><div class="num">4+</div><div class="lbl">System types unified</div></div>
+            <div class="outcome"><div class="num">Pre-purchase</div><div class="lbl">SaaS evaluation delivered</div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <section class="stitch" id="stitchpunk">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Side Project</h2>
+        <span class="count mono">OFF THE CLOCK</span>
+      </div>
+      <div class="stitch-grid">
+        <div>
+          <h3>Stitch Punk — RPG/RTS hybrid in Unity DOTS</h3>
+          <p>
+            You play a single, deliberately weak character. To survive a fight, you raise the dead —
+            and the game becomes an RTS, with your growing horde as a resource you manage strategically.
+          </p>
+          <p>
+            Built solo in Unity DOTS (C#): a high-performance entity-component architecture designed to
+            simulate large-scale unit counts. All code and all art are mine.
+          </p>
+          <div class="chips">
+            <span class="chip">Unity DOTS / ECS</span>
+            <span class="chip">C#</span>
+            <span class="chip">Solo dev</span>
+            <span class="chip">Code + Art</span>
+            <a class="chip" href="https://github.com/SpencerJPark/StitchPunk_0.1" style="text-decoration:none;border-color:var(--freight);color:#fff;background:var(--freight)">View source →</a>
+          </div>
+        </div>
+        <img src="stitchpunk.gif" alt="Stitch Punk gameplay trailer: a stitched-together character and the game's title card" style="max-width:100%;border:1px solid #4A555E;display:block">
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="skills" id="skills">
+      <div class="sec-head">
+        <h2>Working Stack</h2>
+        <span class="count mono">TOOLS I ACTUALLY USE</span>
+      </div>
+      <dl>
+        <dt>APIs &amp; Integrations</dt>
+        <dd>REST APIs, webhooks, JSON, Stripe, Shopify ecosystem, POS/CRM/OMS integrations, event-driven workflows, Google Tag Manager</dd>
+        <dt>Languages &amp; Web</dt>
+        <dd>TypeScript, JavaScript, React, Next.js, Node.js, Python, SQL, C#, FastAPI</dd>
+        <dt>Data &amp; Cloud</dt>
+        <dd>PostgreSQL, BigQuery, MongoDB, ETL (Spark, Airflow), Tableau, Power BI, GCP, AWS, Docker, Firebase</dd>
+      </dl>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2>Put me in front of your hardest customer.</h2>
+      <div class="links">
+        <a class="btn primary" href="mailto:spencerjamespark@gmail.com">Email me</a>
+        <a class="btn" href="Spencer_Park_Resume.pdf">Resume (PDF)</a>
+        <a class="btn" href="https://www.linkedin.com/in/spencer-park-0668001a0/">LinkedIn</a>
+        <a class="btn" href="https://github.com/SpencerJPark/StitchPunk_0.1">Stitch Punk on GitHub</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">SPENCER PARK · SEATTLE, WA · SPENCERJAMESPARK@GMAIL.COM · 425-471-8046</div>
+</footer>
+
+</body>
+</html>
