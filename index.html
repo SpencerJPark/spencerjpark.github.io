@@ -163,7 +163,7 @@
   .btn{
     font-family:'IBM Plex Mono',monospace;font-size:14px;text-transform:uppercase;letter-spacing:.06em;
     text-decoration:none;border:1px solid var(--ink);padding:12px 20px;background:var(--card);
-    transition:background .15s,color .15s;
+    transition:background .15s,color .15s;cursor:pointer;color:var(--ink);
   }
   .btn:hover{background:var(--freight);border-color:var(--freight);color:#fff}
   .btn.primary{background:var(--ink);color:var(--paper)}
@@ -371,7 +371,7 @@
     <section class="contact" id="contact">
       <h2>Put me in front of your hardest customer.</h2>
       <div class="links">
-        <a class="btn primary" href="mailto:spencerjamespark@gmail.com">Email me</a>
+        <button class="btn primary" id="copyEmail" type="button">Copy my email</button>
         <a class="btn" href="Spencer_Park_Resume.pdf">Resume (PDF)</a>
         <a class="btn" href="https://www.linkedin.com/in/spencer-park-0668001a0/">LinkedIn</a>
         <a class="btn" href="https://github.com/SpencerJPark/StitchPunk_0.1">Stitch Punk on GitHub</a>
@@ -384,5 +384,21 @@
   <div class="wrap">SPENCER PARK · SEATTLE, WA · SPENCERJAMESPARK@GMAIL.COM · 425-471-8046</div>
 </footer>
 
+<script>
+(function(){
+  var btn = document.getElementById('copyEmail');
+  if(!btn) return;
+  var addr = 'spencerjamespark@gmail.com';
+  btn.addEventListener('click', function(){
+    function done(){ btn.textContent = 'Copied: ' + addr; setTimeout(function(){ btn.textContent = 'Copy my email'; }, 2500); }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(addr).then(done, function(){ window.location.href = 'mailto:' + addr; });
+    } else {
+      window.location.href = 'mailto:' + addr;
+    }
+  });
+})();
+</script>
 </body>
 </html>
+
