@@ -18,7 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   /* Layout: one loud headline, then a quiet ledger of work, newest first (date | story | proof).
-     A warm tangerine accent on a cool navy base, spent only on the headline accent. */
+     A warm tangerine accent on a cool navy base, spent only on the headline accent.
+     Spacing scale: 8 / 16 / 24 / 32 / 48 / 72 / 96. Columns always 56 apart. */
   :root{
     --paper:#FAF8F3;
     --band:#F1EEE6;
@@ -31,8 +32,13 @@
     --dark-muted:#A8B7C3;
     --display:'Archivo','Arial Narrow',Arial,sans-serif;
     --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
-    color-scheme:light;
     --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:72px; --s7:96px;
+    --gap:56px;
+    --radius:3px;
+    --small:15px;
+    --meta:16px;
+    color-scheme:light;
   }
 
   *{margin:0;padding:0;box-sizing:border-box}
@@ -48,7 +54,7 @@
   a:hover{text-decoration-color:var(--accent)}
   a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
   img{max-width:100%;display:block}
-  h1,h2,h3{text-wrap:balance}
+  h1,h2,h3,h4{text-wrap:balance}
   p{text-wrap:pretty}
   .wrap{
     max-width:1120px;margin:0 auto;
@@ -56,154 +62,153 @@
     padding-right:max(28px,env(safe-area-inset-right,0px));
   }
 
+  /* ---- Shared type ---- */
+  .h-section{
+    font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 88;
+    font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;line-height:1.05;
+  }
+  .h-item{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 90;letter-spacing:-.015em;line-height:1.15}
+  .meta,.label{font-size:var(--meta);color:var(--muted)}
+  .small{font-size:var(--small);color:var(--muted);line-height:1.45}
+
   /* ---- Header (scrolls away) ---- */
-  .hd{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-block:22px}
-  .hd .name{font-family:var(--display);font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.005em}
-  nav{display:flex;gap:24px;font-size:16px}
+  .hd{display:flex;justify-content:flex-end;align-items:center;padding-block:var(--s3)}
+  nav{display:flex;gap:var(--s3);font-size:var(--meta)}
   nav a{text-decoration:none}
   nav a:hover{text-decoration:underline;text-decoration-color:var(--accent)}
 
   /* ---- Hero ---- */
-  .hero{padding-block:72px 40px}
-  .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);grid-template-areas:"text photo" "foot foot";column-gap:56px;align-items:end}
+  .hero{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);grid-template-areas:"text photo" "foot foot";
+    column-gap:var(--gap);align-items:end;padding-block:var(--s3) 0;
+  }
   .hero-text{grid-area:text;min-width:0}
-  .hero h1{max-width:none}
   .hero .portrait{grid-area:photo}
-  .hero-foot{grid-area:foot}
-  .kicker{font-size:17px;color:var(--muted);margin-bottom:18px}
+  .hero-name{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 88;font-size:clamp(22px,2.2vw,28px);line-height:1.1;letter-spacing:-.01em;margin-bottom:var(--s1)}
+  .kicker{font-size:18px;color:var(--muted);margin-bottom:var(--s5)}
   h1{
     font-family:var(--display);font-variation-settings:'wdth' 75;font-weight:850;
     font-size:clamp(46px,7.4vw,96px);line-height:.94;letter-spacing:-.018em;text-transform:uppercase;
-    max-width:14ch;
   }
   h1 .hl{color:var(--accent)}
-  .hero-foot{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px 56px;margin-top:40px;align-items:start}
+  .hero-foot{grid-area:foot;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:var(--s3) var(--gap);margin-top:var(--s5);align-items:start}
   .lede{font-size:clamp(20px,2.1vw,24px);line-height:1.42;max-width:30ch}
   .clients{font-size:17px;color:var(--muted);max-width:40ch;padding-top:6px}
   .clients b{color:var(--ink);font-weight:600}
 
+  /* ---- Sections ---- */
+  .sec{padding-top:var(--s7)}
+  .sec > h2{padding-bottom:var(--s3);border-bottom:1px solid var(--ink)}
+
   /* ---- Ledger of work ---- */
-  .sec{padding-block:72px 24px}
-  .sec > h2, .sec-title{
-    font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 88;
-    font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;line-height:1.05;
-    padding-bottom:20px;border-bottom:1px solid var(--ink);
-  }
   .item{
-    display:grid;grid-template-columns:132px minmax(0,1fr) minmax(0,300px);gap:20px 44px;
-    padding-block:48px;border-bottom:1px solid var(--line);
+    display:grid;grid-template-columns:132px minmax(0,1fr) minmax(0,300px);gap:var(--s3) var(--gap);
+    padding-block:var(--s5);border-bottom:1px solid var(--line);
   }
-  .item:last-child{border-bottom:none}
+  .item:last-child{border-bottom:none;padding-bottom:0}
   .item > *{min-width:0}
   .when{font-family:var(--mono);font-size:14px;color:var(--muted);padding-top:9px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .item h3{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 90;font-size:clamp(24px,2.6vw,30px);line-height:1.12;letter-spacing:-.015em}
-  .label{font-size:16px;color:var(--muted);margin-bottom:14px}
-  .meta{font-size:16px;color:var(--muted)}
-  .item .meta{margin-top:8px;margin-bottom:20px}
+  .item h3{font-size:clamp(24px,2.6vw,30px)}
+  .item .meta{margin-top:var(--s1);margin-bottom:var(--s3)}
+  .item .body,.subs{max-width:60ch}
+  .body p + p,.about-body p + p,.stitch p + p{margin-top:var(--s2)}
+  .subs{display:grid;gap:var(--s3);margin-top:var(--s3)}
+  .sub{border-top:1px solid var(--line);padding-top:var(--s3)}
+  .sub h4{font-size:20px;margin-bottom:var(--s1)}
+  .sub p + p{margin-top:var(--s1)}
+  .figs{font-size:var(--small);color:var(--muted)}
+  .body .figs{margin-top:var(--s2)}
+  .scope{margin-top:var(--s3);padding:var(--s3);background:var(--band);border-radius:var(--radius)}
+  .scope strong{display:block;font-weight:600;margin-bottom:var(--s1)}
+  .aside{display:grid;gap:var(--s3);align-content:start}
   .aside .scope{margin-top:0}
-  .item .body{max-width:60ch}
-  .item .body p + p{margin-top:14px}
-  .subs{display:grid;gap:22px;margin-top:22px;max-width:60ch}
-  .sub{border-top:1px solid var(--line);padding-top:18px}
-  .sub h4{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 90;font-size:20px;line-height:1.2;margin-bottom:6px}
-  .sub p + p{margin-top:8px}
-  .figs{font-size:15.5px;color:var(--muted)}
-  .scope{margin-top:22px;padding:18px 20px;background:var(--band);border-radius:2px}
-  .scope strong{display:block;font-weight:600;margin-bottom:4px}
-  .aside{display:grid;gap:26px;align-content:start}
   .stat .n{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 82;font-size:clamp(40px,4.4vw,56px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-  .stat .l{font-size:15.5px;color:var(--muted);margin-top:6px;line-height:1.4;max-width:26ch}
-  .owned{list-style:none;display:grid;gap:8px;margin-top:10px}
-  .owned li{font-size:16px;line-height:1.45;font-weight:600}
+  .stat .l{font-size:var(--small);color:var(--muted);margin-top:var(--s1);line-height:1.45;max-width:26ch}
+  .owned{list-style:none;display:grid;gap:var(--s1)}
+  .owned li{font-size:var(--meta);line-height:1.45;font-weight:600}
   .owned li span{font-weight:400;color:var(--muted)}
   .owned li span::before{content:" · "}
+  .textlinks{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s3);font-size:var(--meta)}
+  .item .textlinks{margin-top:var(--s3)}
+  .aside .textlinks{margin-top:0}
 
-  .vid{display:block;text-decoration:none;position:relative;aspect-ratio:16/9;max-width:100%;background:var(--dark);color:var(--dark-fg);overflow:hidden}
+  .vid{display:block;text-decoration:none;position:relative;aspect-ratio:16/9;max-width:100%;background:var(--dark);color:var(--dark-fg);overflow:hidden;border-radius:var(--radius)}
   .vid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .vid .fallback{position:absolute;left:16px;top:14px;font-family:var(--display);font-weight:800;font-size:20px}
+  .vid .fallback{position:absolute;left:var(--s2);top:var(--s2);font-family:var(--display);font-weight:800;font-size:20px}
   .vid .play{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:#FFFFFF;display:grid;place-items:center;box-shadow:0 2px 14px rgba(0,0,0,.3);transition:transform .15s}
   .vid .play::after{content:"";border-left:19px solid #12232E;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
   .vid:hover .play{transform:scale(1.06)}
-  .cap{font-size:15px;color:var(--muted);margin-top:8px}
 
-  .shot{margin-top:24px;max-width:100%}
-  .shot img{width:100%;border:1px solid var(--line);border-radius:4px}
-  .shot figcaption{font-size:14.5px;color:var(--muted);margin-top:8px}
-  .posters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-  .posters img{width:100%;border:1px solid var(--line)}
-  .textlinks{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:16px}
+  .shot{margin-top:var(--s3);max-width:100%}
+  .shot img{width:100%;border:1px solid var(--line);border-radius:var(--radius)}
+  .shot figcaption{font-size:var(--small);color:var(--muted);margin-top:var(--s1)}
+  .posters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s2)}
+  .posters img{width:100%;border:1px solid var(--line);border-radius:var(--radius)}
+
+  /* ---- Portrait ---- */
+  .portrait{position:relative;aspect-ratio:4/5;max-width:100%;background:var(--band);overflow:hidden;border-radius:var(--radius)}
+  .portrait::before{content:"";position:absolute;width:70%;aspect-ratio:1;left:20%;top:6%;border-radius:50%;background:var(--accent)}
+  .portrait img{position:absolute;left:0;bottom:0;width:100%;height:auto}
 
   /* ---- About ---- */
   .stance{
     font-family:var(--display);font-weight:600;font-variation-settings:'wdth' 92;
-    font-size:clamp(23px,2.7vw,32px);line-height:1.28;letter-spacing:-.012em;max-width:32ch;margin-top:40px;
+    font-size:clamp(23px,2.7vw,32px);line-height:1.28;letter-spacing:-.012em;max-width:32ch;margin-top:var(--s5);
   }
-  .portrait{position:relative;aspect-ratio:4/5;max-width:100%;background:var(--band);overflow:hidden;border-radius:3px}
-  .portrait::before{content:"";position:absolute;width:70%;aspect-ratio:1;left:20%;top:6%;border-radius:50%;background:var(--accent)}
-  .portrait img{position:absolute;left:0;bottom:0;width:100%;height:auto}
-  .about-body{max-width:60ch;margin-top:22px;font-size:19px;line-height:1.6}
-  .about-body p + p{margin-top:16px}
-  .rows{margin-top:48px;border-top:1px solid var(--line)}
-  .row{display:grid;grid-template-columns:132px minmax(0,1fr);gap:8px 44px;padding-block:24px;border-bottom:1px solid var(--line)}
-  .row > *{min-width:0}
-  .row h3{font-family:var(--display);font-weight:800;font-size:21px;line-height:1.2}
-  .row .role{color:var(--muted);font-size:16px;margin-top:2px}
-  .row p{margin-top:10px;max-width:62ch;font-size:17px}
-  .toolkit{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 40px}
-  .toolkit h3{font-family:var(--display);font-weight:800;font-size:18px;margin-bottom:6px}
-  .toolkit p{font-size:16px;color:var(--muted);line-height:1.55}
+  .about-body{max-width:60ch;margin-top:var(--s3)}
+  .toolkit{margin-top:var(--s5);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4) var(--gap)}
+  .toolkit h3{font-size:18px;margin-bottom:var(--s1)}
+  .toolkit p{font-size:var(--meta);color:var(--muted);line-height:1.55}
 
   /* ---- Side project ---- */
-  .stitch{background:var(--dark);color:var(--dark-fg);margin-top:72px}
-  .stitch .wrap{padding-block:72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 56px;align-items:center}
-  .stitch .label{color:var(--dark-muted)}
-  .stitch h2{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 88;font-size:clamp(28px,3.4vw,40px);line-height:1.05;letter-spacing:-.02em;margin-bottom:18px}
+  .stitch{background:var(--dark);color:var(--dark-fg);margin-top:var(--s7)}
+  .stitch .wrap{padding-block:var(--s6);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s5) var(--gap);align-items:center}
+  .stitch .label{color:var(--dark-muted);margin-bottom:var(--s2)}
+  .stitch h2{margin-bottom:var(--s3)}
   .stitch p{color:var(--dark-muted);max-width:52ch}
-  .stitch p + p{margin-top:14px}
   .stitch a{color:var(--dark-fg)}
-  .stitch img{width:100%}
+  .stitch img{width:100%;border-radius:var(--radius)}
 
   /* ---- Contact ---- */
-  .contact .wrap{padding-block:88px 40px}
-  .contact h2{font-family:var(--display);font-weight:800;font-variation-settings:'wdth' 88;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em}
+  .contact .wrap{padding-block:var(--s7) var(--s5)}
   .email{
-    display:block;margin-top:18px;font-family:var(--display);font-weight:700;font-variation-settings:'wdth' 85;
+    display:block;margin-top:var(--s2);font-family:var(--display);font-weight:700;font-variation-settings:'wdth' 85;
     font-size:clamp(26px,5.4vw,64px);line-height:1.05;letter-spacing:-.02em;word-break:break-word;text-decoration:none;
   }
   .email:hover{color:var(--accent)}
-  .actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:28px;font-size:17px}
+  .actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s4);margin-top:var(--s4);font-size:17px}
   .copy{
     font:inherit;font-weight:600;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--paper);
-    padding:11px 20px;border-radius:2px;transition:background .15s,border-color .15s;
+    padding:12px var(--s3);border-radius:var(--radius);transition:background .15s,border-color .15s;
   }
   .copy:hover{background:var(--accent);border-color:var(--accent)}
-  .foot{margin-top:72px;padding-top:20px;border-top:1px solid var(--line);font-size:15px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px}
+  .foot{margin-top:var(--s6);padding-top:var(--s3);border-top:1px solid var(--line);font-size:var(--small);color:var(--muted)}
 
   @media (max-width:960px){
-    .hero{grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "photo" "foot";row-gap:28px}
+    .hero{grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "photo" "foot";row-gap:var(--s4)}
     .hero h1{max-width:14ch}
     .portrait{width:min(260px,62%)}
-    .hero-foot{margin-top:4px}
+    .hero-foot{margin-top:0}
     .item{grid-template-columns:minmax(0,1fr) minmax(0,260px)}
     .when{grid-column:1/-1;padding-top:0}
-    .row{grid-template-columns:minmax(0,1fr)}
-    .row .when{grid-column:auto}
   }
   @media (max-width:720px){
+    :root{--gap:32px}
     body{font-size:17px}
     .wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-    .hero{padding-block:40px 56px}
+    .kicker{margin-bottom:var(--s4)}
     .hero-foot,.stitch .wrap{grid-template-columns:minmax(0,1fr)}
-    .item{grid-template-columns:minmax(0,1fr);padding-block:40px;gap:14px}
-    .aside{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 20px;margin-top:10px}
+    .item{grid-template-columns:minmax(0,1fr);padding-block:var(--s5);gap:var(--s2)}
+    .aside{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3);margin-top:var(--s1)}
     .aside > .vid,.aside > .posters,.aside > .wide{grid-column:1/-1}
-    .toolkit{grid-template-columns:minmax(0,1fr);gap:22px}
-    .sec{padding-block:60px 16px}
-    .stitch .wrap{padding-block:56px}
-    .contact .wrap{padding-block:64px 32px}
+    .toolkit{grid-template-columns:minmax(0,1fr);gap:var(--s3)}
+    .sec{padding-top:var(--s6)}
+    .stitch{margin-top:var(--s6)}
+    .stitch .wrap{padding-block:var(--s5)}
+    .contact .wrap{padding-block:var(--s6) var(--s4)}
   }
   @media (max-width:400px){
-    nav{gap:16px;font-size:15px}
+    nav{gap:var(--s2);font-size:15px}
     .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
   }
 </style>
@@ -211,7 +216,6 @@
 <body>
 
 <header class="wrap hd">
-  <a class="name" href="#top">Spencer Park</a>
   <nav aria-label="Site">
     <a href="#work">Work</a>
     <a href="#about">About</a>
@@ -222,33 +226,35 @@
 <main id="top">
   <section class="wrap hero">
     <div class="hero-text">
-      <p class="kicker">Project and program manager in Seattle</p>
+      <p class="hero-name">Spencer Park</p>
+      <p class="kicker">Project and program manager, based in Seattle</p>
       <h1>Swag, events,<br> video <span class="hl">&amp;&nbsp;web.</span></h1>
     </div>
     <figure class="portrait">
       <img src="assets/spencer.webp" alt="Spencer Park, smiling, in a dark sweater">
     </figure>
     <div class="hero-foot">
-      <p class="lede">I manage all four, including projects that mix them, and get them shipped on deadline.</p>
-      <p class="clients">I've worked on campaigns and events for <b>Panera Bread</b>, <b>WinStar World Casino</b>, and the <b>San Francisco 49ers Foundation</b>.</p>
+      <p class="lede">I manage projects that mix marketing disciplines, and I deliver them on deadline and on budget.</p>
+      <p class="clients">I've worked on campaigns and events for brands like <b>Panera Bread</b>, <b>WinStar World Casino</b>, and the <b>San Francisco 49ers Foundation</b>.</p>
     </div>
   </section>
 
   <section class="wrap sec" id="work" aria-labelledby="more-title">
-    <h2 id="more-title">Work</h2>
+    <h2 id="more-title" class="h-section">Work</h2>
 
     <article class="item" id="panera">
       <div class="when">Sep 2026</div>
       <div>
-        <h3>Panera's Bun Bun tutorial, rebuilt in three days</h3>
+        <h3 class="h-item">Panera's Bun Bun tutorial, rebuilt in three days</h3>
         <p class="meta">Freelance video producer for Brand Revolution</p>
         <div class="body">
-          <p>Panera sent Bun Bun crochet kits to creators to build hype and get them posting, with the goal of bringing people into Panera locations to hold craft meetups. The kit's only instructions were its tutorial video. The version from the factory in China was shot in poor lighting, so the hands looked gray. It had a robotic AI voiceover, and it was missing the last half of the instructions, the most complicated part.</p>
-          <p>I got the factory's original script so I had a starting point, then learned basic crochet so I could recognize the stitches and rewrite every step in order. I color graded the footage back to natural skin tones, and handled the edit, subtitles, client revisions, YouTube setup with chapter timestamps, and the QR code printed in every kit.</p>
+          <p>Panera was sending Bun Bun crochet kits to creators to build hype and draw people into its locations for craft meetups. The whole kit hinged on one tutorial video, and Brand Revolution brought me in to redo the one the vendor had made.</p>
+          <p>The footage, shot at the vendor's factory in China, was rough and far from a finished product. The last half of the instructions, the hardest part, was missing entirely.</p>
+          <p>So I rebuilt it. I got the factory's original script, learned basic crochet so I could recognize every stitch, and rewrote the instructions step by step. From there, I handled everything: color grading, editing, subtitles, client revisions, YouTube setup with chapters, and the QR code printed in every kit.</p>
         </div>
         <div class="scope">
           <strong>Cutting scope to hold the date</strong>
-          The plan was a month, with a voice actor already lined up. Then the QR code had to reach the factory before the kits went to print. I offered a short link, which would have kept the original timeline and let the client update the video later. When they needed a direct YouTube link, I cut scope instead: I replaced the voice actor with an ElevenLabs voice and delivered in three days.
+          We had a month, with a voice actor lined up. Then the QR code had to reach the factory before the kits went to print, and the timeline dropped to three days. I pitched a short link that would have kept the original schedule and allowed client revisions right up until launch. When the client declined because they needed a direct YouTube link, I pivoted again and cut scope. I swapped the voice actor for an ElevenLabs voice and delivered on time.
         </div>
       </div>
       <div class="aside">
@@ -266,19 +272,19 @@
     <article class="item" id="offair">
       <div class="when">2026–now</div>
       <div>
-        <h3>Off Air, a phone-free DJ series</h3>
+        <h3 class="h-item">Off Air, a phone-free DJ series</h3>
         <p class="meta">Co-founder and promoter, Seattle</p>
         <div class="body">
-          <p>My partner leads creative and day-of production. I run the business side: budget, bookkeeping, cash handling, venue relations, and marketing. I contract and pay the DJs, poster artist, stagehand, and photographer.</p>
-          <p>For the debut in June 2026, I made the video creative, ran the Meta Ads, and put up posters around downtown. 143 people came, close to the venue's capacity, and the show made money. The second show, a drum and bass night, is on November 21.</p>
+          <p>I co-founded Off Air and run the business side: budget, bookkeeping, cash handling, venue relations, and marketing, while my partner leads creative and day-of production. I also manage booking and coordinating with our DJs, poster artist, lead photographer, and main stagehand.</p>
+          <p>For our first show in June 2026, I made the promo video, ran the Meta Ads campaign, and even put up posters around downtown myself. We hit 95% of the venue's capacity and turned a profit on our very first show. Next up is a drum and bass night on November 21, 2026.</p>
         </div>
-        <p class="textlinks" style="margin-top:18px">
+        <p class="textlinks">
           <a href="https://www.instagram.com/p/DZDSjaTzweo/" target="_blank" rel="noopener">Watch the promo video ↗</a>
           <a href="https://www.instagram.com/off_air_dance/" target="_blank" rel="noopener">@off_air_dance ↗</a>
         </p>
         <div class="scope">
           <strong>Before Off Air: concert production</strong>
-          I ran day-of operations for hip-hop concerts with crowds of up to 3,500, the biggest headlined by Trippie Redd. I set up and managed ticketing staff, briefed and worked with security, designed the VJ visuals, coordinated picking up and bringing in supplies like fencing, and made sure venues passed fire safety inspections and green rooms matched what the artists' contracts required.
+          I ran day-of operations for hip-hop concerts with crowds of up to 3,500, the biggest headlined by Trippie Redd. I managed the ticketing staff, briefed and worked with security, designed the VJ visuals, and coordinated transportation for talent and supplies, from barriers to set pieces. I also oversaw the barriers' construction on site. I also made sure venues passed fire inspections and green rooms met the artists' contracts.
         </div>
       </div>
       <div class="aside">
@@ -286,23 +292,22 @@
           <img src="assets/off-air-dnb.jpg" alt="Off Air drum and bass poster, November 21 at Add-a-Ball, Seattle" loading="lazy">
           <img src="assets/off-air-disco.jpg" alt="Off Air disco poster for the June debut at Add-a-Ball, Seattle" loading="lazy">
         </div>
-        <div class="stat"><div class="n">143</div><div class="l">People at the first show</div></div>
-        <div class="stat"><div class="n">$300</div><div class="l">Total ad budget</div></div>
+        <div class="stat wide"><div class="n">95%</div><div class="l">Of venue capacity at our first show</div></div>
       </div>
     </article>
      <article class="item" id="chg">
       <div class="when">2024</div>
       <div>
-        <h3>Finding what Just Poke's recipes actually cost</h3>
-        <p class="meta">Technical business consultant (contract) for Conscious Hospitality Group, a multi-brand restaurant group</p>
+        <h3 class="h-item">Finding what Just Poke's recipes actually cost</h3>
+        <p class="meta">Technical business consultant (contract) for Conscious Hospitality Group, a multi-brand restaurant franchisor</p>
         <div class="body">
-          <p>I was brought in to clean up the backend data for Just Poke, pulling pricing from their POS, CRM, inventory, and fulfillment systems into one reporting layer for leadership.</p>
-          <p>While going through it, I found that nobody knew what any recipe cost. The menu had been reworked, but the costs were still based on the old recipes. The new recipes were also written in volumes, while ingredients were bought by weight, so there was no way to calculate the real cost from the data they had.</p>
-          <p>I also interviewed technology vendors to help them choose tools that would keep their data cleaner going forward.</p>
+          <p>Conscious Hospitality brought me in to fix Just Poke's backend data. I pulled pricing from four separate systems, their POS, CRM, inventory, and fulfillment, into one place leadership could actually use.</p>
+          <p>Digging through it, I caught a bigger problem. Nobody knew what their recipes actually cost. They'd reworked the whole menu, but the costs were still tied to the old recipes. On top of that, the new recipes were written by volume, while ingredients were bought by weight. There was no way to get the real numbers from their data.</p>
+          <p>I also vetted technology vendors for them, so they could choose tools that would keep their data clean going forward.</p>
         </div>
         <div class="scope">
           <strong>Getting the real numbers</strong>
-          I asked to be put in touch with a Just Poke franchisee and scheduled a morning to help them prep. As we made all 26 recipes, from the main bowls to the sauces shared between them, I measured every ingredient in the same units their vendors sell it in. Then I built a spreadsheet that works like a calculator: leadership can change an ingredient's price, like soy sauce, and see right away which dishes are slipping out of margin, or test a menu change before making it.
+          I went to the source. I set up a morning with a Just Poke franchisee and helped them prep. As we made all 26 recipes, from the main bowls to the shared sauces, I measured every ingredient in the units their vendors sell it in. Then I built a cost calculator for leadership. They can change the price of one ingredient, like soy sauce, and instantly see which dishes slip out of margin, or test a menu change before rolling it out.
         </div>
       </div>
       <div class="aside">
@@ -322,11 +327,11 @@
     <article class="item" id="eatdirt">
       <div class="when">2023–2024</div>
       <div>
-        <h3>A food commissary, built from nothing</h3>
+        <h3 class="h-item">Building out a food commissary</h3>
         <p class="meta">Operations manager at EatDirt, a direct-to-consumer food brand</p>
         <div class="body">
-          <p>EatDirt had no fulfillment operation of its own, so I built one. I designed the commissary, sourced the packaging, set up last-mile delivery and carrier workflows, coordinated vendors across packaging, supply, and technology, built the KPI reporting, and trained the staff who ran it.</p>
-          <p>I documented the whole operation in video and writing so it would keep running after I left.</p>
+          <p>EatDirt brought me in to build out their food commissary after they closed their seed round. I designed the facility, sourced packaging, set up last-mile delivery and carriers, and coordinated vendors for supplies and tech.</p>
+          <p>I also built the KPI reporting in Python, SQL, and BigQuery, trained the staff, and documented the whole operation in video and writing so it could keep running smoothly after I left.</p>
         </div>
       </div>
       <div class="aside">
@@ -347,11 +352,11 @@
     <article class="item" id="directcrops">
       <div class="when">2022–2023</div>
       <div>
-        <h3>Direct Crops, a marketplace for selling produce to restaurants</h3>
-        <p class="meta">Co-founder, managing the product and the build</p>
+        <h3 class="h-item">Direct Crops, a marketplace for local farms and restaurants</h3>
+        <p class="meta">Co-founder</p>
         <div class="body">
-          <p>We built a B2B marketplace and inventory platform so small and mid-size producers could sell directly to restaurants. My co-founder was the lead engineer. I managed the project, split the build with him, and led the work of finding customers.</p>
-          <p>We went to industry events and met producers and buyers in person to get the platform in front of them, then turned what they told us into the next things to build. At its peak, about 40 regular sellers were using it to sell to restaurants.</p>
+          <p>Direct Crops was a startup I co-founded to help local farms sell directly to restaurants. My co-founder and I built the platform ourselves and got it to the point where farms and restaurants were starting to use it.</p>
+          <p>I led our outreach, going to industry events and meeting farmers and restaurant buyers in person. What I heard in those conversations shaped what we built next.</p>
           <p class="figs">Built with Next.js, Node.js, PostgreSQL, Stripe, and Google Cloud</p>
         </div>
         <figure class="shot">
@@ -359,71 +364,67 @@
           <figcaption>A recreation of the Direct Crops marketplace. The original site is no longer online.</figcaption>
         </figure>
       </div>
-      <div class="aside">
-        <div class="stat wide"><div class="n">~40</div><div class="l">Regular sellers at its peak</div></div>
-      </div>
+      <div class="aside"></div>
     </article>
 
     <article class="item" id="niners">
       <div class="when">2022</div>
       <div>
-        <h3>Custom jean jackets for 49ers Foundation donors</h3>
+        <h3 class="h-item">Custom jean jackets for 49ers Foundation donors</h3>
         <p class="meta">On-site event operations with Juice Marketing · Carmel Valley Ranch, California</p>
         <div class="body">
-          <p>A two-day donor event where each donor was fitted for a jean jacket, then customized it with heat-pressed patches.</p>
-          <p>I traveled with the Juice team, helped with setup, and worked out the sizing station layout. Back of house, I ran order staging so every jacket stayed matched to its donor, and kept the order data clean through a 14-hour first day. I also took over the heat press and rotated through fitting, pressing, and hand-out.</p>
+          <p>Juice Marketing brought me on for a two-day 49ers Foundation donor event, where guests got custom jean jackets. I helped set up, planned the sizing station layout, and ran order staging so every jacket stayed matched to the right donor. I also took over the heat press and kept order data clean through a 14-hour first day.</p>
+        </div>
+        <div class="scope">
+          <strong>The patch solution</strong>
+          Right after setup, the client raised a concern. They wanted the same patch on every jacket to give the event a sense of unity, but worried it would undercut the promise that donors could make the jacket their own. I suggested putting it on the sizing jackets, so it was the first version donors saw. They approved it on the spot.
         </div>
       </div>
-      <div class="aside">
-        <div class="scope wide">
-          <strong>The patch idea</strong>
-          The client worried a required event patch would undercut the "customize your jacket" promise. I suggested putting it on the sizing jackets, so it was the first version donors saw. The client approved it on site.
-        </div>
-      </div>
+      <div class="aside"></div>
     </article>
 
     <article class="item" id="bramble">
       <div class="when">2018–2021</div>
       <div>
-        <h3>Reworking a factory's order assembly line</h3>
+        <h3 class="h-item">Reworking a factory's order assembly line</h3>
         <p class="meta">Inventory / project manager at Bramble Berry, a handcraft supply eCommerce company</p>
         <div class="body">
-          <p>I reorganized how orders were assembled on the factory floor and directed the fulfillment, production, and distribution teams.</p>
-          <p>I built the warehouse logistics metrics, used them to find where the line slowed down, and trained department leads to hold standard work practices and compliance.</p>
+          <p>At Bramble Berry, a handcraft supply company, I reorganized how orders were assembled and directed the fulfillment, production, and distribution teams. I built the metrics we used to track the warehouse, used them to make order assembly more efficient, and trained the department leads.</p>
+          <p>To measure it, I timed order assembly before and after the changes and compared the averages. Orders were getting built 13.6% faster, which meant the same team could get more out the door each day. That paid off when COVID hit and sales jumped, because it helped us keep up with the spike.</p>
         </div>
       </div>
       <div class="aside">
-        <div class="stat wide"><div class="n">13.6%</div><div class="l">More efficient order assembly</div></div>
+        <div class="stat wide"><div class="n">13.6%</div><div class="l">Faster order assembly, timed before and after</div></div>
       </div>
     </article>
 
     <article class="item" id="winstar">
       <div class="when">2017–2019</div>
       <div>
-        <h3>Three events for WinStar World Casino</h3>
+        <h3 class="h-item">Three events for WinStar World Casino</h3>
         <p class="meta">Event operations for Three Brothers, Inc., a promotional products company</p>
         <div class="body">
-          <p>WinStar is one of the largest casinos in the world. Each event was different, but the job was the same: plan the flow, work the crowd, and keep people moving while making sure they left happy.</p>
+          <p>WinStar is one of the largest casinos in the world, and I worked their VIP events through Three Brothers, Inc. My job was to plan the flow, work the crowd, and keep people moving while making sure every guest left happy.</p>
         </div>
         <div class="subs">
           <div class="sub">
-            <h4>Black Friday shopping cart dash</h4>
-            <p>A game-show-style event that went so well WinStar brought us back to run it three years in a row, until COVID stopped it. We put three contestants an hour through it for 12 hours straight, 36 in all, and the average haul was about $9,300 in retail value. The final day in 2019 was the highest single-day coin-in in WinStar's history.</p>
+            <h4 class="h-item">Black Friday shopping cart dash</h4>
+            <p>The shopping cart dash went so well that WinStar brought us back three years in a row, until COVID shut it down. Every hour for 12 hours, three VIP guests got their turn to race a shopping cart through a mock store, with an average haul of about $9,300 each. The final day in 2019 set the record for the highest single-day coin-in in WinStar's history.</p>
           </div>
           <div class="sub">
-            <h4>Tumi jacket fittings</h4>
-            <p>1,400 jacket fittings. The challenge was cadence: how fast we could bring guests in, get them a jacket they were happy with, and move them along. We refined the flow and the signage until it ran smoothly. When the jackets ran small against their size chart, I solved shortages on the spot with reorders, or a jacket sized for the guest's spouse.</p>
+            <h4 class="h-item">Tumi jacket fittings</h4>
+            <p>For the Tumi jacket event, I was part of the team that ran 1,400 fittings. The challenge was cadence: bringing guests in, getting them happy, and moving them along. The jackets also ran smaller than expected, so some sizes ran low. When that happened, I made sure guests still had good options, like ordering one in their size or picking out a jacket for their spouse, so the fittings stayed fun even when stock didn't cooperate.</p>
           </div>
           <div class="sub">
-            <h4>New Year's Eve gifts</h4>
-            <p>The brief was "ooh and ahh." The ooh came from crystal sets, and the ahh came from how comfortable the UGGs felt. We ran all the fitting services, including shoe fittings for the UGGs, and handled the on-site hand-out.</p>
+            <h4 class="h-item">New Year's Eve gifts</h4>
+            <p>For New Year's, our brief was simple: give WinStar's VIP guests an "ooh and ahh." The ooh came that evening, with sparkling crystal sets. The ahh came the next morning, when guests slipped into a fresh pair of UGGs. I ran the fittings for all 900 pairs, so guests walked away in the right size and feeling taken care of.</p>
             <p class="figs">900 pairs of UGGs at $140 · 900 crystal sets at $85</p>
           </div>
         </div>
       </div>
       <div class="aside">
         <div class="stat"><div class="n">$168M</div><div class="l">Highest single-day coin-in in WinStar's history, on the 2019 cart dash</div></div>
-        <div class="stat"><div class="n">$9,300</div><div class="l">Average cart dash haul, 36 contestants</div></div>
+        <div class="stat"><div class="n">$9,300</div><div class="l">Average haul per VIP guest at the cart dash</div></div>
         <div class="stat"><div class="n">1,400</div><div class="l">Tumi jacket fittings</div></div>
         <div class="stat"><div class="n">900</div><div class="l">UGG fittings on New Year's Eve</div></div>
       </div>
@@ -432,7 +433,7 @@
  </section>
 
   <section class="wrap sec" id="about" aria-labelledby="about-title">
-    <h2 id="about-title">About</h2>
+    <h2 id="about-title" class="h-section">About</h2>
     <p class="stance">I care about the work, and about the people on both sides of it.</p>
     <div class="about-body">
       <p>I love customer service. Everything that needs to get done will get done, but there's almost always a chance to make someone's day a little better along the way, so why not take it? A job can run on time and still feel human.</p>
@@ -440,9 +441,9 @@
     </div>
 
     <div class="toolkit">
-      <div><h3>Project and production</h3><p>Budgeting and bookkeeping, vendor and contractor management, on-site event operations, inventory and fulfillment</p></div>
-      <div><h3>Video and marketing</h3><p>DaVinci Resolve, Blender, scriptwriting, YouTube, Meta Ads</p></div>
-      <div><h3>Web and data</h3><p>React, Next.js, TypeScript, Node.js, Shopify, Stripe, SQL, Python, BigQuery</p></div>
+      <div><h3 class="h-item">Project and production</h3><p>Budgeting and bookkeeping, vendor and contractor management, on-site event operations, inventory and fulfillment</p></div>
+      <div><h3 class="h-item">Video and marketing</h3><p>DaVinci Resolve, Blender, scriptwriting, YouTube, Meta Ads</p></div>
+      <div><h3 class="h-item">Web and data</h3><p>React, Next.js, TypeScript, Node.js, Shopify, Stripe, SQL, Python, BigQuery</p></div>
     </div>
   </section>
 
@@ -450,7 +451,7 @@
     <div class="wrap">
       <div>
         <p class="label">On my own time</p>
-        <h2 id="stitch-title">Stitch Punk, a game I'm building alone</h2>
+        <h2 id="stitch-title" class="h-section">Stitch Punk, a game I'm building alone</h2>
         <p>You play one deliberately weak character. To survive a fight, you raise the dead, and the game turns into a real-time strategy game where your growing horde is the resource you manage.</p>
         <p>I'm building it in Unity DOTS (C#) around a full-time job, and all the design, code, and art are mine. <a href="https://github.com/SpencerJPark/StitchPunk_0.1" target="_blank" rel="noopener">See the source on GitHub ↗</a></p>
       </div>
@@ -460,7 +461,7 @@
 
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
-      <h2 id="contact-title">Get in touch</h2>
+      <h2 id="contact-title" class="h-section">Get in touch</h2>
       <a class="email" href="mailto:spencerjamespark@gmail.com" id="emailText">spencerjamespark@gmail.com</a>
       <div class="actions">
         <button class="copy" id="copyEmail" type="button">Copy email</button>
